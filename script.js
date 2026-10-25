@@ -46,7 +46,7 @@ const resultFacts = [
   'A reliable water source can save time and help communities grow.',
 ];
 
-const DEBUG_PREVIEW = true;
+const DEBUG_PREVIEW = false;
 
 const game = {
   phase: 'title',
@@ -286,14 +286,6 @@ function setup() {
   elements.primaryResultButton.textContent = 'Walk again';
   elements.secondaryResultButton.textContent = 'Share result';
   elements.secondaryResultButton.dataset.mode = 'share';
-
-  if (DEBUG_PREVIEW) {
-    // Temporary preview mode so the gameplay screen is visible while iterating on art and layout.
-    setScreen('game');
-    updateCanVisuals();
-    updateHud();
-    return;
-  }
 
   setScreen('title');
   updateCanVisuals();
