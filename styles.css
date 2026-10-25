@@ -1,15 +1,606 @@
-/* Charity: water Brand Colors
+:root {
+  --sand: #f5e7c9;
+  --sand-deep: #e7d2a2;
+  --terracotta: #d5895d;
+  --rust: #b15e3d;
+  --sun: #f7f0df;
+  --ink: #231b17;
+  --blue: #2d9ef7;
+  --blue-deep: #1f7ad1;
+  --cream: #fff9ee;
+  --skin: #b77d48;
+  --skin-dark: #8b5633;
+  --outline: #2c1f1b;
+  --card: #f9f2e6;
+  --danger: #d65b42;
+}
 
-Primary Colors:
-- Yellow:     #FFC907
-- Blue:       #2E9DF7
+* {
+  box-sizing: border-box;
+}
 
-Secondary Colors:
-- Light Blue: #8BD1CB
-- Green:      #4FCB53
-- Orange:     #FF902A
-- Red:        #F5402C
-- Dark Green: #159A48
-- Pink:       #F16061
+html, body {
+  margin: 0;
+  min-height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--sand);
+  color: var(--ink);
+}
 
-*/
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  font: inherit;
+}
+
+.app-shell {
+  width: min(100vw, 520px);
+  min-height: 100vh;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+}
+
+.game-panel {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--sand);
+  overflow: visible;
+  touch-action: none;
+  user-select: none;
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.screen.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+#titleScreen,
+#resultScreen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+h1, h2 {
+  margin: 0;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+}
+
+h1 {
+  font-size: clamp(2.6rem, 7vw, 4.7rem);
+}
+
+h2 {
+  font-size: clamp(2.2rem, 6vw, 4rem);
+}
+
+.tagline {
+  margin: 1rem 0 2rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  max-width: 16rem;
+}
+
+.caption {
+  margin-top: 1rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+}
+
+.primary-button,
+.secondary-button {
+  border: 3px solid var(--ink);
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: 999px;
+  padding: 0.9rem 1.3rem;
+  font-weight: 700;
+  min-height: 48px;
+  cursor: pointer;
+}
+
+.secondary-button {
+  background: transparent;
+  color: var(--ink);
+}
+
+#gameScreen {
+  position: relative;
+  padding: 1rem 0.9rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hud {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.7rem;
+  align-items: start;
+  z-index: 10;
+}
+
+.hud-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.hud-label {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08rem;
+}
+
+.hud-value {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.distance-block {
+  min-width: 0;
+}
+
+.progress-track {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  background: rgba(35, 27, 23, 0.08);
+  overflow: visible;
+}
+
+.progress-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  background: var(--blue);
+  border-radius: 999px;
+  transition: width 0.15s ease;
+}
+
+.progress-dot {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 2px solid var(--cream);
+}
+
+.water-block {
+  align-items: center;
+  min-width: 90px;
+}
+
+.water-gauge {
+  position: relative;
+  width: 54px;
+  height: 16px;
+  border-radius: 10px;
+  border: 2px solid var(--ink);
+  background: rgba(35, 27, 23, 0.08);
+  overflow: hidden;
+}
+
+.water-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100%;
+  background: var(--blue);
+  border-radius: 8px;
+  transition: width 0.1s ease;
+}
+
+.timer-block {
+  text-align: right;
+}
+
+#resetButton {
+  position: absolute;
+  top: 5.25rem;
+  left: 1rem;
+  z-index: 100;
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  border: 3px solid var(--ink);
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  min-height: 44px;
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.2);
+}
+
+#resetButton.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.confetti-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 40;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -18px;
+  width: 10px;
+  height: 16px;
+  border-radius: 3px;
+  opacity: 0.9;
+  animation: confettiFall 1.8s ease-in forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--drift-x), 110vh, 0) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.scene {
+  position: relative;
+  flex: 1;
+  min-height: 460px;
+  margin-top: 0.6rem;
+  border-radius: 24px;
+  background: var(--sand);
+  overflow: hidden;
+}
+
+.sun {
+  position: absolute;
+  top: 0.5rem;
+  right: 1.2rem;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: var(--sun);
+  border: 3px solid var(--ink);
+}
+
+.horizon {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 26px;
+  border-top: 3px solid var(--ink);
+}
+
+.horizon-top {
+  top: 78px;
+  background: var(--terracotta);
+}
+
+.horizon-bottom {
+  top: 104px;
+  background: var(--rust);
+}
+
+.well-wrap {
+  position: absolute;
+  left: 50%;
+  top: 72px;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 90px;
+}
+
+.well {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 94px;
+  height: 56px;
+  border: 3px solid var(--ink);
+  border-bottom: 0;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.well::before,
+.well::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  width: 18px;
+  height: 12px;
+  border: 3px solid var(--ink);
+  background: var(--sand);
+}
+
+.well::before {
+  left: 10px;
+}
+
+.well::after {
+  right: 10px;
+}
+
+.well-top {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  width: 100%;
+  height: 18px;
+  transform: translateX(-50%);
+  border: 3px solid var(--ink);
+  background: var(--sand-deep);
+}
+
+.path-lines {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(0,0,0,0.04));
+}
+
+.path-lines span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  height: 2px;
+  background: rgba(35, 27, 23, 0.18);
+  transform: translateX(0);
+  opacity: 0.8;
+}
+
+.path-lines span:nth-child(1) { bottom: 28px; }
+.path-lines span:nth-child(2) { bottom: 52px; }
+.path-lines span:nth-child(3) { bottom: 76px; }
+
+.can-stage {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  width: min(70vw, 220px);
+  height: 220px;
+}
+
+.can-sprite {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 120px;
+  height: 160px;
+  transform: translateX(-50%) rotate(0deg);
+  transform-origin: 50% 90%;
+  transition: transform 0.12s ease-out;
+  border: 3px solid var(--ink);
+  border-radius: 18px 18px 16px 16px;
+  background: var(--blue);
+  box-shadow: inset 0 0 0 6px rgba(255, 255, 255, 0.12);
+}
+
+.can-cap {
+  position: absolute;
+  left: 50%;
+  top: -18px;
+  transform: translateX(-50%);
+  width: 54px;
+  height: 20px;
+  border: 3px solid var(--ink);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  background: #d9d0b9;
+}
+
+.can-label {
+  position: absolute;
+  left: 50%;
+  top: 22px;
+  transform: translateX(-50%);
+  font-weight: 900;
+  font-size: 1.6rem;
+  color: var(--ink);
+}
+
+.can-water {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  height: 55%;
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 12px 12px 10px 10px;
+}
+
+.can-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: -14px;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(35, 27, 23, 0.12);
+}
+
+.hand {
+  position: absolute;
+  bottom: 62px;
+  width: 70px;
+  height: 104px;
+  border: 3px solid var(--ink);
+  border-radius: 50px 50px 36px 36px;
+  background: var(--skin);
+}
+
+.hand-left {
+  left: 12px;
+  transform: rotate(22deg);
+}
+
+.hand-right {
+  right: 12px;
+  transform: rotate(-22deg);
+}
+
+.balance-state {
+  position: absolute;
+  left: 50%;
+  bottom: 162px;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+}
+
+.tap-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0.8;
+}
+
+#resultScreen {
+  background: var(--sand);
+  gap: 1rem;
+}
+
+.result-stat-block {
+  display: flex;
+  align-items: end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.result-stat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 130px;
+  color: var(--blue-deep);
+  font-size: clamp(2.2rem, 8vw, 4rem);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+}
+
+.result-stat-block p {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: 0.12rem;
+  text-transform: lowercase;
+}
+
+.fact-card {
+  margin-top: 0.5rem;
+  background: var(--card);
+  border: 3px solid var(--ink);
+  border-left: 8px solid var(--terracotta);
+  border-radius: 12px;
+  padding: 1rem 1rem 0.9rem;
+}
+
+.fact-card p {
+  margin: 0;
+}
+
+.fact-tag {
+  margin-bottom: 0.7rem !important;
+  font-size: 0.66rem;
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.fact-source {
+  margin-top: 0.8rem !important;
+  font-size: 0.72rem;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+}
+
+.result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: auto;
+}
+
+.result-actions button {
+  flex: 1 1 160px;
+}
+
+@media (min-width: 700px) {
+  .app-shell {
+    width: min(100vw, 1200px);
+  }
+
+  .game-panel {
+    min-height: 100vh;
+  }
+
+  .scene {
+    min-height: 560px;
+  }
+}
+

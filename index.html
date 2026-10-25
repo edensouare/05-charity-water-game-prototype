@@ -1,13 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Charity Water Game</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <h1>Welcome to the Charity Water Game Prototype</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jerry Can Relay</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <main class="game-panel">
+        <button id="resetButton" class="reset-button" type="button">Reset</button>
+        <div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div>
+
+        <section id="titleScreen" class="screen active">
+          <p class="eyebrow">Charity: water presents</p>
+          <h1>Jerry Can Relay</h1>
+          <p class="tagline">Keep every drop steady on the long walk to water.</p>
+          <button id="startButton" class="primary-button">Start walk</button>
+          <p class="caption">A balance game with a real-world mission</p>
+        </section>
+
+        <section id="gameScreen" class="screen">
+          <header class="hud">
+            <div class="hud-block distance-block">
+              <p class="hud-label">Distance to well</p>
+              <div class="progress-track">
+                <div id="distanceFill" class="progress-fill"></div>
+                <span class="progress-dot"></span>
+              </div>
+              <p id="distanceReadout" class="hud-value">2.0 km</p>
+            </div>
+
+            <div class="hud-block water-block">
+              <p class="hud-label">Water</p>
+              <div class="water-gauge">
+                <div id="waterFill" class="water-fill"></div>
+              </div>
+              <p id="waterReadout" class="hud-value">100%</p>
+            </div>
+
+            <div class="hud-block timer-block">
+              <p class="hud-label">Time</p>
+              <p id="timerReadout" class="hud-value timer-value">30.0s</p>
+            </div>
+          </header>
+
+          <div class="scene">
+            <div class="sun"></div>
+            <div class="horizon horizon-top"></div>
+            <div class="horizon horizon-bottom"></div>
+            <div class="well-wrap">
+              <div class="well">
+                <div class="well-top"></div>
+              </div>
+            </div>
+
+            <div class="path-lines">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <div class="can-stage">
+              <div id="canSprite" class="can-sprite">
+                <div class="can-cap"></div>
+                <div class="can-label">5L</div>
+                <div class="can-water"></div>
+                <div class="can-shadow"></div>
+              </div>
+              <div class="hand hand-left"></div>
+              <div class="hand hand-right"></div>
+              <div id="balanceState" class="balance-state">Steady</div>
+              <div id="tapHint" class="tap-hint">Tap to balance</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="resultScreen" class="screen">
+          <p id="resultEyebrow" class="eyebrow">Walk complete</p>
+          <h2 id="resultHeading">You made it</h2>
+
+          <div class="result-stat-block">
+            <div class="result-stat">
+              <span id="resultLiters">3.2L</span>
+            </div>
+            <p>delivered</p>
+          </div>
+
+          <div class="fact-card">
+            <p class="fact-tag">Dynamic fact</p>
+            <p id="resultFact">
+              The average water walk in rural communities can be several kilometers.
+            </p>
+            <p class="fact-source">Source: charity: water</p>
+          </div>
+
+          <div class="result-actions">
+            <button id="primaryResultButton" class="primary-button">Walk again</button>
+            <button id="secondaryResultButton" class="secondary-button">Share result</button>
+          </div>
+        </section>
+      </main>
+    </div>
+
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
