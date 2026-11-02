@@ -4,7 +4,7 @@ Source of truth for the game's design and logic. If a rule changes, update this 
 
 ## 1. Overview
 
-- **What it is:** A mobile-first browser game for charity: water, aimed at college students.
+- **What it is:** A mobile and desktop browser game for charity: water, aimed at college students.
 - **Core loop:** First-person view of two hands gripping a jerry can. The player is always walking toward a well and only controls balance. Keep the can from tipping so water doesn't spill. Reach the well with as much water as possible.
 - **Session length:** About 30 to 60 seconds per run. Quick and replayable.
 - **Tech:** Vanilla HTML, CSS, and JS (Vite optional). No backend. No frameworks required.
@@ -79,6 +79,21 @@ Keep every tunable number in one `CONFIG` object at the top of `game.js`.
 | `STEADY_RANGE` | 8 | Degrees of tilt (either side of 0) that count as "Steady" |
 | `PARTIAL_CREDIT_FACTOR` | 0.5 | Multiplier for liters credited on a loss |
 
+### 4a. Difficulty modes
+
+The game includes three selectable difficulty modes before the player starts a run.
+
+- **Easy**: The current baseline version. This is the default mode and is the gentlest version of the game. The can drifts steadily, the tilt range stays moderate, and the timer lasts 30 seconds.
+- **Normal**: Slightly harder than Easy. The can leans more unpredictably and drifts a bit more aggressively, which makes it harder to recover after each wobble.
+- **Hard**: The most difficult mode. It increases the leaning force, makes the can drift more aggressively, and gives the player 15 extra seconds so the run is longer but more demanding.
+
+#### Difficulty tuning rules
+- Easy mode uses the original gameplay pace and balance behavior.
+- Normal mode increases the random lean force and drift speed by a modest amount.
+- Hard mode increases max tilt, lowers the spill threshold, raises spill loss, and adds 15 seconds to the overall timer.
+- The selected difficulty must be visible on the title screen before the player starts the game.
+- The chosen mode resets the game state when the player starts a new run.
+
 ## 5. Screens (copy and layout from the wireframes)
 
 All text in quotes is the wireframe copy. Items marked dynamic come from game state or from charity: water content.
@@ -134,9 +149,10 @@ gameState      // "title" | "playing" | "won" | "lost"
 When the player taps "Start walk":
 
 1. Switch to the gameplay screen.
-2. Initialize state: `tiltAngle = 0`, `waterLevel = 100`, `distance = 0`, `driftDirection` = random (-1 or 1), `driftSpeed = START_DRIFT_SPEED`, `gameState = "playing"`.
-3. Show the hands + can, distance bar, water meter, and tap hints. Hints fade out after `HINT_FADE_MS`.
-4. Start the game tick loop. Distance begins increasing immediately. The player never controls forward motion.
+2. Read the currently selected difficulty mode and apply its settings.
+3. Initialize state: `tiltAngle = 0`, `waterLevel = 100`, `distance = 0`, `driftDirection` = random (-1 or 1), `driftSpeed = selectedMode.startDriftSpeed`, `gameState = "playing"`.
+4. Show the hands + can, distance bar, water meter, and tap hints. Hints fade out after `HINT_FADE_MS`.
+5. Start the game tick loop. Distance begins increasing immediately. The player never controls forward motion.
 
 ## 8. Player input
 

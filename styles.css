@@ -77,7 +77,11 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 2rem 1.5rem;
+  padding: 2rem 1.5rem 1rem;
+}
+
+#titleScreen {
+  padding-top: 3rem;
 }
 
 .eyebrow {
@@ -118,6 +122,28 @@ h2 {
   text-transform: uppercase;
 }
 
+.home-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+}
+
+.home-links a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+.home-links a:hover,
+.home-links a:focus {
+  border-bottom-color: var(--ink);
+}
+
 .primary-button,
 .secondary-button {
   border: 3px solid var(--ink);
@@ -133,6 +159,30 @@ h2 {
 .secondary-button {
   background: transparent;
   color: var(--ink);
+}
+
+.difficulty-picker {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0 0 1rem;
+}
+
+.difficulty-button {
+  border: 3px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04rem;
+  cursor: pointer;
+}
+
+.difficulty-button.active {
+  background: var(--ink);
+  color: var(--cream);
 }
 
 #gameScreen {
@@ -234,11 +284,16 @@ h2 {
   text-align: right;
 }
 
-#resetButton {
+.game-controls {
   position: absolute;
   top: 5.25rem;
   left: 1rem;
+  display: flex;
+  gap: 0.5rem;
   z-index: 100;
+}
+
+.utility-button {
   display: block;
   opacity: 0;
   visibility: hidden;
@@ -257,7 +312,7 @@ h2 {
   box-shadow: 0 0 0 3px rgba(255,255,255,0.2);
 }
 
-#resetButton.visible {
+.game-controls.visible .utility-button {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -303,6 +358,32 @@ h2 {
   border-radius: 24px;
   background: var(--sand);
   overflow: hidden;
+}
+
+.milestone-message {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  padding: 0.5rem 0.9rem;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  background: rgba(255, 249, 238, 0.96);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 30;
+}
+
+.milestone-message.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
 }
 
 .sun {
@@ -452,8 +533,10 @@ h2 {
   top: 22px;
   transform: translateX(-50%);
   font-weight: 900;
-  font-size: 1.6rem;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  letter-spacing: -0.04em;
   color: var(--ink);
+  z-index: 2;
 }
 
 .can-water {
@@ -488,19 +571,19 @@ h2 {
 }
 
 .hand-left {
-  left: 12px;
+  left: 2px;
   transform: rotate(22deg);
 }
 
 .hand-right {
-  right: 12px;
+  right: 2px;
   transform: rotate(-22deg);
 }
 
 .balance-state {
   position: absolute;
   left: 50%;
-  bottom: 162px;
+  bottom: 190px;
   transform: translateX(-50%);
   font-size: 0.7rem;
   font-weight: 700;

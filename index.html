@@ -9,15 +9,29 @@
   <body>
     <div class="app-shell">
       <main class="game-panel">
-        <button id="resetButton" class="reset-button" type="button">Reset</button>
+        <div class="game-controls">
+          <button id="homeButton" class="utility-button" type="button">Home</button>
+          <button id="resetButton" class="utility-button" type="button">Reset</button>
+        </div>
         <div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div>
 
         <section id="titleScreen" class="screen active">
           <p class="eyebrow">Charity: water presents</p>
           <h1>Jerry Can Relay</h1>
           <p class="tagline">Keep every drop steady on the long walk to water.</p>
+
+          <div class="difficulty-picker" aria-label="Choose difficulty">
+            <button class="difficulty-button active" type="button" data-difficulty="easy">Easy</button>
+            <button class="difficulty-button" type="button" data-difficulty="normal">Normal</button>
+            <button class="difficulty-button" type="button" data-difficulty="hard">Hard</button>
+          </div>
+
           <button id="startButton" class="primary-button">Start walk</button>
           <p class="caption">A balance game with a real-world mission</p>
+          <div class="home-links">
+            <a href="https://www.charitywater.org/" target="_blank" rel="noreferrer">charity: water</a>
+            <a href="https://www.charitywater.org/donate" target="_blank" rel="noreferrer">Donate</a>
+          </div>
         </section>
 
         <section id="gameScreen" class="screen">
@@ -46,11 +60,12 @@
           </header>
 
           <div class="scene">
+            <div id="milestoneMessage" class="milestone-message" aria-live="polite">Halfway there!</div>
             <div class="sun"></div>
             <div class="horizon horizon-top"></div>
             <div class="horizon horizon-bottom"></div>
             <div class="well-wrap">
-              <div class="well">
+              <div id="well" class="well">
                 <div class="well-top"></div>
               </div>
             </div>
